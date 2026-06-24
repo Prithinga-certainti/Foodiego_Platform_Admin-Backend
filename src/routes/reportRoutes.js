@@ -1,0 +1,15 @@
+const router = require('express').Router();
+const auth = require('../middlewares/authMiddleware');
+const ctrl = require('../controllers/reportController');
+router.use(auth);
+router.get('/kpi', ctrl.kpi);
+router.get('/revenue/daily', ctrl.dailyRevenue);
+router.get('/orders/summary', ctrl.orderSummary);
+router.get('/top-items', ctrl.topItems);
+router.get('/recent-orders', ctrl.recentOrders);
+router.get('/overview', ctrl.overviewStats);
+router.get('/brand-performance', ctrl.brandPerformance);
+router.get('/city-stats', ctrl.cityStats);
+router.get('/monthly-revenue', ctrl.monthlyRevenue);
+router.get('/pending-approvals', ctrl.pendingApprovals);
+module.exports = router;
