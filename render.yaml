@@ -1,9 +1,12 @@
-# Render Blueprint — FoodieGo Platform Admin backend + free Postgres.
-# In Render: New > Blueprint > pick this repo. Fill the sync:false secrets when prompted.
-databases:
-  - name: padmin-db
-    plan: free
-
+# Render Blueprint — FoodieGo Platform Admin backend.
+# DB is an external free Postgres (Neon). Render's free tier allows only ONE
+# free database per account, which is already used by FoodieGo — so this app
+# uses Neon instead and DATABASE_URL is set manually in the Render dashboard.
+#
+# In Render: New > Blueprint > pick this repo, then set the sync:false vars:
+#   DATABASE_URL   -> your Neon pooled connection string (must include sslmode=require)
+#   ADMIN_EMAIL    -> your admin login email
+#   ADMIN_PASSWORD -> your admin login password
 services:
   - type: web
     name: foodiego-platform-admin-backend
@@ -14,9 +17,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: padmin-db
-          property: connectionString
+        sync: false        # paste your Neon connection string (sslmode=require)
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_EMAIL
