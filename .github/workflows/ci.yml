@@ -1,0 +1,27 @@
+name: CI
+
+# Runs on every push to main and on PRs — mirrors the frontend's GitHub flow.
+# The backend deploys via Render (see render.yaml), so this is a quality gate,
+# not a deploy: it installs deps and verifies the app boots/loads cleanly.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Smoke check (modules load without a live DB)
+        run: node -e "require('./src/app'); require('./src/config/database'); console.log('OK: backend modules load');"
