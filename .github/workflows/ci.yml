@@ -1,8 +1,9 @@
 name: CI
 
-# Runs on every push to main and on PRs — mirrors the frontend's GitHub flow.
-# The backend deploys via Render (see render.yaml), so this is a quality gate,
-# not a deploy: it installs deps and verifies the app boots/loads cleanly.
+# CI pipeline — runs on every push to main and on PRs. This is a quality gate,
+# NOT a deploy: it installs deps and verifies the app boots/loads cleanly.
+# Deployment is handled separately by cd.yml (CD), which triggers a Render
+# deploy after this workflow succeeds on main.
 on:
   push:
     branches: [main]
