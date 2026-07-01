@@ -16,6 +16,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Manual approval gate: configure "Required reviewers" on the `production`
+    # environment (repo Settings > Environments) so this job waits for a human
+    # to approve before it deploys.
+    environment: production
     # Only deploy when CI succeeded (workflow_run), or when triggered manually.
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
